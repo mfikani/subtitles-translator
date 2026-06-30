@@ -2,6 +2,22 @@ console.log("✅ MFI: YouTube Subtitle Translator loaded");
 
 let lastSubtitle = "";
 
+async function translate(text) {
+  try {
+    const res = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|fr`
+    );
+
+    const data = await res.json();
+    return data.responseData.translatedText;
+
+  } catch (e) {
+    console.error("Translation error:", e);
+    return text;
+  }
+}
+
+
 // ✅ Ensure overlay exists
 function ensureOverlay() {
   let overlay = document.getElementById("custom-subtitles");
@@ -47,7 +63,9 @@ const observer = new MutationObserver(() => {
 
     console.log("🎬 Subtitle detected:", text);
 
-    overlay.innerText = text;
+    translate(text).then(translated => {
+        overlay.innerText = translated;
+    });
   }
 
 });
