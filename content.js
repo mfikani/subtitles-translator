@@ -1,11 +1,40 @@
 console.log("✅ MFI: YouTube Subtitle Translator loaded");
 
 let lastSubtitle = "";
+let targetLanguage = "fr"; // default language
+
+document.addEventListener("keydown", (event) => {
+
+  if (event.key === "1") {
+    targetLanguage = "fr";
+    lastSubtitle = "";
+    console.log("🌍 Language set to French");
+  }
+
+  if (event.key === "2") {
+    targetLanguage = "es";
+    lastSubtitle = "";
+    console.log("🌍 Language set to Spanish");
+  }
+
+  if (event.key === "3") {
+    targetLanguage = "ar";
+    lastSubtitle = "";
+    console.log("🌍 Language set to Arabic");
+  }
+
+  if (event.key === "4") {
+    targetLanguage = "el";
+    lastSubtitle = "";
+    console.log("🌍 Language set to Greek");
+  }
+
+});
 
 async function translate(text) {
   try {
     const res = await fetch(
-      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|fr`
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|${targetLanguage}`
     );
 
     const data = await res.json();
